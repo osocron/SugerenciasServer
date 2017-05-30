@@ -12,9 +12,6 @@ namespace SugerenciasServer
     public interface ISugerenciasService
     {
         [OperationContract]
-        void DoWork();
-
-        [OperationContract]
         string RegistrarPalabra(string usuario, string password, string palabra);
 
         [OperationContract]

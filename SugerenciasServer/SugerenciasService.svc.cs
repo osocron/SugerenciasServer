@@ -11,9 +11,6 @@ namespace SugerenciasServer
     // NOTE: In order to launch WCF Test Client for testing this service, please select SugerenciasService.svc or SugerenciasService.svc.cs at the Solution Explorer and start debugging.
     public class SugerenciasService : ISugerenciasService
     {
-        public void DoWork()
-        {
-        }
 
         public string RegistrarPalabra(string usuario, string password, string palabra)
         {

@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BaseConocimientoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="acomulador">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_palabras" Type="int" Nullable="false" />
+          <Property Name="id_base_conocimiento" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="baseconocimiento">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="palabra" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="peso" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="palabras">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="palabra" Type="nchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_acomulador_base_conocimiento">
+          <End Role="baseconocimiento" Type="Self.baseconocimiento" Multiplicity="1" />
+          <End Role="acomulador" Type="Self.acomulador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="baseconocimiento">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="acomulador">
+              <PropertyRef Name="id_base_conocimiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_acomulador_palabras">
+          <End Role="palabras" Type="Self.palabras" Multiplicity="1" />
+          <End Role="acomulador" Type="Self.acomulador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="palabras">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="acomulador">
+              <PropertyRef Name="id_palabras" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BaseConocimientoModelStoreContainer">
+          <EntitySet Name="acomulador" EntityType="Self.acomulador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="baseconocimiento" EntityType="Self.baseconocimiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="palabras" EntityType="Self.palabras" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_acomulador_base_conocimiento" Association="Self.FK_acomulador_base_conocimiento">
+            <End Role="baseconocimiento" EntitySet="baseconocimiento" />
+            <End Role="acomulador" EntitySet="acomulador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_acomulador_palabras" Association="Self.FK_acomulador_palabras">
+            <End Role="palabras" EntitySet="palabras" />
+            <End Role="acomulador" EntitySet="acomulador" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BaseConocimientoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="acomulador">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Decimal" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_palabras" Type="Int32" Nullable="false" />
+          <Property Name="id_base_conocimiento" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="baseconocimiento" Relationship="Self.FK_acomulador_base_conocimiento" FromRole="acomulador" ToRole="baseconocimiento" />
+          <NavigationProperty Name="palabra" Relationship="Self.FK_acomulador_palabras" FromRole="acomulador" ToRole="palabras" />
+        </EntityType>
+        <EntityType Name="baseconocimiento">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="palabra" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="peso" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="acomuladors" Relationship="Self.FK_acomulador_base_conocimiento" FromRole="baseconocimiento" ToRole="acomulador" />
+        </EntityType>
+        <EntityType Name="palabra">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="palabra1" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="acomuladors" Relationship="Self.FK_acomulador_palabras" FromRole="palabras" ToRole="acomulador" />
+        </EntityType>
+        <Association Name="FK_acomulador_base_conocimiento">
+          <End Role="baseconocimiento" Type="Self.baseconocimiento" Multiplicity="1" />
+          <End Role="acomulador" Type="Self.acomulador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="baseconocimiento">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="acomulador">
+              <PropertyRef Name="id_base_conocimiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_acomulador_palabras">
+          <End Role="palabras" Type="Self.palabra" Multiplicity="1" />
+          <End Role="acomulador" Type="Self.acomulador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="palabras">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="acomulador">
+              <PropertyRef Name="id_palabras" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BaseConocimientoConn" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="acomuladors" EntityType="Self.acomulador" />
+          <EntitySet Name="baseconocimientoes" EntityType="Self.baseconocimiento" />
+          <EntitySet Name="palabras" EntityType="Self.palabra" />
+          <AssociationSet Name="FK_acomulador_base_conocimiento" Association="Self.FK_acomulador_base_conocimiento">
+            <End Role="baseconocimiento" EntitySet="baseconocimientoes" />
+            <End Role="acomulador" EntitySet="acomuladors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_acomulador_palabras" Association="Self.FK_acomulador_palabras">
+            <End Role="palabras" EntitySet="palabras" />
+            <End Role="acomulador" EntitySet="acomuladors" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BaseConocimientoModelStoreContainer" CdmEntityContainer="BaseConocimientoConn">
+          <EntitySetMapping Name="acomuladors">
+            <EntityTypeMapping TypeName="BaseConocimientoModel.acomulador">
+              <MappingFragment StoreEntitySet="acomulador">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_palabras" ColumnName="id_palabras" />
+                <ScalarProperty Name="id_base_conocimiento" ColumnName="id_base_conocimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="baseconocimientoes">
+            <EntityTypeMapping TypeName="BaseConocimientoModel.baseconocimiento">
+              <MappingFragment StoreEntitySet="baseconocimiento">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="palabra" ColumnName="palabra" />
+                <ScalarProperty Name="peso" ColumnName="peso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="palabras">
+            <EntityTypeMapping TypeName="BaseConocimientoModel.palabra">
+              <MappingFragment StoreEntitySet="palabras">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="palabra1" ColumnName="palabra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
