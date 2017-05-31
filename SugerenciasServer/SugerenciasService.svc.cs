@@ -4,6 +4,9 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using Google.Apis.Customsearch.v1;
+using Google.Apis.Customsearch.v1.Data;
+using Google.Apis.Services;
 using static LanguageExt.Prelude;
 using SugerenciasServer.Model.Repositorios;
 
@@ -17,6 +20,7 @@ namespace SugerenciasServer
         private readonly PalabrasRepo _palabrasRepo = new PalabrasRepo();
         private readonly BaseConocimientoRepo _baseConocimientoRepo = new BaseConocimientoRepo();
         private readonly AcumuladorRepo _acumuladorRepo = new AcumuladorRepo();
+        private readonly int _pesoRequerido = 10;
 
         public string RegistrarPalabra(string usuario, string password, string palabra)
         {
@@ -51,7 +55,49 @@ namespace SugerenciasServer
 
         public List<string> RegresarResultado(string usuario, string password)
         {
-            throw new NotImplementedException();
+            return _usuariosRepo.GetByQuery(u =>
+                    u.usuario == usuario &&
+                    u.password == password)
+                .HeadOrNone()
+                .Match(
+                    Some: user =>
+                    {
+                        SugerenciasEntities _db = new SugerenciasEntities();
+                        var pesoTotal = (from acc in _db.acomuladors
+                            join pBaseCon in _db.baseconocimientoes on acc.id_base_conocimiento equals pBaseCon.id
+                            select pBaseCon).ToList().Aggregate(0, (acc, next) => acc + next.peso);
+                        return pesoTotal >= _pesoRequerido ? GoogleSearch() : new List<string>();
+                    },
+                    None: () => new List<string>());
         }
+
+        public List<string> GoogleSearch()
+        {
+            const string apiKey = "AIzaSyBiclbhUOcW00n1ulWbWs5n9MUc93o6L80";
+            const string searchEngineId = "003925559047818067440:h5c9q2euouo";
+            const string query = "hardware";
+            var customSearchService = new CustomsearchService(new BaseClientService.Initializer { ApiKey = apiKey });
+            var listRequest = customSearchService.Cse.List(query);
+            listRequest.Cx = searchEngineId;
+            Console.WriteLine("Start...");
+            List<string> result = new List<string>();
+            try
+            {
+                foreach (var item in listRequest.Execute().Items)
+                {
+                    Console.WriteLine("Title : " + item.Title + Environment.NewLine + "Link : " + item.Link +
+                                      Environment.NewLine + Environment.NewLine);
+                    result.Add(item.Link);
+                }
+            }
+            catch (Exception)
+            {
+                return result;
+            }
+            Console.WriteLine("Done.");
+            Console.ReadLine();
+            return result;
+        }
+
     }
 }
