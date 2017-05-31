@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BaseConocimientoModelStoreContainer" CdmEntityContainer="SugerenciasEntities">
+    <EntitySetMapping Name="acomuladors">
+      <EntityTypeMapping TypeName="BaseConocimientoModel.acomulador">
+        <MappingFragment StoreEntitySet="acomulador">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_palabras" ColumnName="id_palabras" />
+          <ScalarProperty Name="id_base_conocimiento" ColumnName="id_base_conocimiento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="baseconocimientoes">
+      <EntityTypeMapping TypeName="BaseConocimientoModel.baseconocimiento">
+        <MappingFragment StoreEntitySet="baseconocimiento">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="palabra" ColumnName="palabra" />
+          <ScalarProperty Name="peso" ColumnName="peso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="palabras">
+      <EntityTypeMapping TypeName="BaseConocimientoModel.palabra">
+        <MappingFragment StoreEntitySet="palabras">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="palabra1" ColumnName="palabra" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TblUsuarios">
+      <EntityTypeMapping TypeName="BaseConocimientoModel.TblUsuario">
+        <MappingFragment StoreEntitySet="TblUsuarios">
+          <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
+          <ScalarProperty Name="usuario" ColumnName="usuario" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

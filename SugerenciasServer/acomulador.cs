@@ -14,7 +14,7 @@ namespace SugerenciasServer
     
     public partial class acomulador
     {
-        public decimal id { get; set; }
+        public int id { get; set; }
         public int id_palabras { get; set; }
         public int id_base_conocimiento { get; set; }
     

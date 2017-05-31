@@ -10,7 +10,7 @@ namespace SugerenciasServer.Model.Repositorios
     
     public class BaseConocimientoRepo : IRepository<baseconocimiento>
     {
-        private readonly BaseConocimientoConn _db = new BaseConocimientoConn();
+        private readonly SugerenciasEntities _db = new SugerenciasEntities();
 
         public List<baseconocimiento> GetAll()
         {
@@ -57,6 +57,11 @@ namespace SugerenciasServer.Model.Repositorios
                     }
                 ))
                 .None(() => Try(() => 0));
+        }
+
+        public SugerenciasEntities GetDB()
+        {
+            return _db;
         }
     }
 }

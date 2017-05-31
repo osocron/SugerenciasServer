@@ -9,7 +9,7 @@ namespace SugerenciasServer.Model.Repositorios
 {
     public class PalabrasRepo : IRepository<palabra>
     {
-        private readonly BaseConocimientoConn _db = new BaseConocimientoConn();
+        private readonly SugerenciasEntities _db = new SugerenciasEntities();
         public List<palabra> GetAll()
         {
             return _db.palabras.ToList();

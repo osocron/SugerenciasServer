@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BaseConocimientoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="acomulador">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_palabras" Type="Int32" Nullable="false" />
+    <Property Name="id_base_conocimiento" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="baseconocimiento" Relationship="Self.FK_acomulador_base_conocimiento" FromRole="acomulador" ToRole="baseconocimiento" />
+    <NavigationProperty Name="palabra" Relationship="Self.FK_acomulador_palabras" FromRole="acomulador" ToRole="palabras" />
+  </EntityType>
+  <EntityType Name="baseconocimiento">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="palabra" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="peso" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="acomuladors" Relationship="Self.FK_acomulador_base_conocimiento" FromRole="baseconocimiento" ToRole="acomulador" />
+  </EntityType>
+  <EntityType Name="palabra">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="palabra1" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="acomuladors" Relationship="Self.FK_acomulador_palabras" FromRole="palabras" ToRole="acomulador" />
+  </EntityType>
+  <EntityType Name="TblUsuario">
+    <Key>
+      <PropertyRef Name="Id_Usuario" />
+    </Key>
+    <Property Name="Id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_acomulador_base_conocimiento">
+    <End Role="baseconocimiento" Type="Self.baseconocimiento" Multiplicity="1" />
+    <End Role="acomulador" Type="Self.acomulador" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="baseconocimiento">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="acomulador">
+        <PropertyRef Name="id_base_conocimiento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_acomulador_palabras">
+    <End Role="palabras" Type="Self.palabra" Multiplicity="1" />
+    <End Role="acomulador" Type="Self.acomulador" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="palabras">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="acomulador">
+        <PropertyRef Name="id_palabras" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SugerenciasEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="acomuladors" EntityType="Self.acomulador" />
+    <EntitySet Name="baseconocimientoes" EntityType="Self.baseconocimiento" />
+    <EntitySet Name="palabras" EntityType="Self.palabra" />
+    <EntitySet Name="TblUsuarios" EntityType="Self.TblUsuario" />
+    <AssociationSet Name="FK_acomulador_base_conocimiento" Association="Self.FK_acomulador_base_conocimiento">
+      <End Role="baseconocimiento" EntitySet="baseconocimientoes" />
+      <End Role="acomulador" EntitySet="acomuladors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_acomulador_palabras" Association="Self.FK_acomulador_palabras">
+      <End Role="palabras" EntitySet="palabras" />
+      <End Role="acomulador" EntitySet="acomuladors" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -288,9 +288,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ISugerenciasService.cs" />
+    <Compile Include="Model\Repositorios\AcumuladorRepo.cs" />
     <Compile Include="Model\Repositorios\BaseConocimientoRepo.cs" />
     <Compile Include="Model\Repositorios\IRepository.cs" />
     <Compile Include="Model\Repositorios\PalabrasRepo.cs" />
+    <Compile Include="Model\Repositorios\UsuariosRepo.cs" />
     <Compile Include="palabra.cs">
       <DependentUpon>SugerenciasDataModel.tt</DependentUpon>
     </Compile>
@@ -326,6 +328,9 @@
     </Compile>
     <Compile Include="SugerenciasService.svc.cs">
       <DependentUpon>SugerenciasService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="TblUsuario.cs">
+      <DependentUpon>SugerenciasDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

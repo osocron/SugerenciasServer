@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BaseConocimientoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="BaseConocimientoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="acomulador">
           <Key>
             <PropertyRef Name="id" />
@@ -27,6 +27,14 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="palabra" Type="nchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblUsuarios">
+          <Key>
+            <PropertyRef Name="Id_Usuario" />
+          </Key>
+          <Property Name="Id_Usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usuario" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <Association Name="FK_acomulador_base_conocimiento">
           <End Role="baseconocimiento" Type="Self.baseconocimiento" Multiplicity="1" />
@@ -56,6 +64,7 @@
           <EntitySet Name="acomulador" EntityType="Self.acomulador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="baseconocimiento" EntityType="Self.baseconocimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="palabras" EntityType="Self.palabras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblUsuarios" EntityType="Self.TblUsuarios" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_acomulador_base_conocimiento" Association="Self.FK_acomulador_base_conocimiento">
             <End Role="baseconocimiento" EntitySet="baseconocimiento" />
             <End Role="acomulador" EntitySet="acomulador" />
@@ -65,7 +74,8 @@
             <End Role="acomulador" EntitySet="acomulador" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BaseConocimientoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -73,7 +83,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Decimal" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_palabras" Type="Int32" Nullable="false" />
           <Property Name="id_base_conocimiento" Type="Int32" Nullable="false" />
           <NavigationProperty Name="baseconocimiento" Relationship="Self.FK_acomulador_base_conocimiento" FromRole="acomulador" ToRole="baseconocimiento" />
@@ -95,6 +105,14 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="palabra1" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="acomuladors" Relationship="Self.FK_acomulador_palabras" FromRole="palabras" ToRole="acomulador" />
+        </EntityType>
+        <EntityType Name="TblUsuario">
+          <Key>
+            <PropertyRef Name="Id_Usuario" />
+          </Key>
+          <Property Name="Id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <Association Name="FK_acomulador_base_conocimiento">
           <End Role="baseconocimiento" Type="Self.baseconocimiento" Multiplicity="1" />
@@ -120,10 +138,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BaseConocimientoConn" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="SugerenciasEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="acomuladors" EntityType="Self.acomulador" />
           <EntitySet Name="baseconocimientoes" EntityType="Self.baseconocimiento" />
           <EntitySet Name="palabras" EntityType="Self.palabra" />
+          <EntitySet Name="TblUsuarios" EntityType="Self.TblUsuario" />
           <AssociationSet Name="FK_acomulador_base_conocimiento" Association="Self.FK_acomulador_base_conocimiento">
             <End Role="baseconocimiento" EntitySet="baseconocimientoes" />
             <End Role="acomulador" EntitySet="acomuladors" />
@@ -138,7 +157,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BaseConocimientoModelStoreContainer" CdmEntityContainer="BaseConocimientoConn">
+        <EntityContainerMapping StorageEntityContainer="BaseConocimientoModelStoreContainer" CdmEntityContainer="SugerenciasEntities">
           <EntitySetMapping Name="acomuladors">
             <EntityTypeMapping TypeName="BaseConocimientoModel.acomulador">
               <MappingFragment StoreEntitySet="acomulador">
@@ -162,6 +181,15 @@
               <MappingFragment StoreEntitySet="palabras">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="palabra1" ColumnName="palabra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblUsuarios">
+            <EntityTypeMapping TypeName="BaseConocimientoModel.TblUsuario">
+              <MappingFragment StoreEntitySet="TblUsuarios">
+                <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="password" ColumnName="password" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

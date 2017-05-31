@@ -13,10 +13,10 @@ namespace SugerenciasServer
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BaseConocimientoConn : DbContext
+    public partial class SugerenciasEntities : DbContext
     {
-        public BaseConocimientoConn()
-            : base("name=BaseConocimientoConn")
+        public SugerenciasEntities()
+            : base("name=SugerenciasEntities")
         {
         }
     
@@ -28,5 +28,6 @@ namespace SugerenciasServer
         public virtual DbSet<acomulador> acomuladors { get; set; }
         public virtual DbSet<baseconocimiento> baseconocimientoes { get; set; }
         public virtual DbSet<palabra> palabras { get; set; }
+        public virtual DbSet<TblUsuario> TblUsuarios { get; set; }
     }
 }
