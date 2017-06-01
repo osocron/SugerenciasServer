@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -62,31 +63,37 @@ namespace SugerenciasServer
                 .Match(
                     Some: user =>
                     {
-                        SugerenciasEntities _db = new SugerenciasEntities();
-                        var pesoTotal = (from acc in _db.acomuladors
-                            join pBaseCon in _db.baseconocimientoes on acc.id_base_conocimiento equals pBaseCon.id
+                        SugerenciasEntities db = new SugerenciasEntities();
+                        var pesoTotal = (from acc in db.acomuladors
+                            join pBaseCon in db.baseconocimientoes on acc.id_base_conocimiento equals pBaseCon.id
                             select pBaseCon).ToList().Aggregate(0, (acc, next) => acc + next.peso);
-                        return pesoTotal >= _pesoRequerido ? GoogleSearch() : new List<string>();
+                        return pesoTotal >= _pesoRequerido ? TruncateTableAndReturnResult(db) : new List<string>();
                     },
                     None: () => new List<string>());
         }
 
-        public List<string> GoogleSearch()
+        private List<string> TruncateTableAndReturnResult(SugerenciasEntities db)
         {
-            const string apiKey = "AIzaSyBiclbhUOcW00n1ulWbWs5n9MUc93o6L80";
+            db.acomuladors.RemoveRange(db.acomuladors);
+            db.SaveChanges();
+            return GoogleSearch();
+        }
+
+        private List<string> GoogleSearch()
+        {
+            const string apiKey = "AIzaSyB13pz0pD46cc7UHpUe8sPE0GcyOc3Nko8";
             const string searchEngineId = "003925559047818067440:h5c9q2euouo";
             const string query = "hardware";
             var customSearchService = new CustomsearchService(new BaseClientService.Initializer { ApiKey = apiKey });
             var listRequest = customSearchService.Cse.List(query);
             listRequest.Cx = searchEngineId;
-            Console.WriteLine("Start...");
+            listRequest.Hl = "es-419";
+            listRequest.Lr = CseResource.ListRequest.LrEnum.LangEs;
             List<string> result = new List<string>();
             try
             {
                 foreach (var item in listRequest.Execute().Items)
                 {
-                    Console.WriteLine("Title : " + item.Title + Environment.NewLine + "Link : " + item.Link +
-                                      Environment.NewLine + Environment.NewLine);
                     result.Add(item.Link);
                 }
             }
@@ -94,8 +101,6 @@ namespace SugerenciasServer
             {
                 return result;
             }
-            Console.WriteLine("Done.");
-            Console.ReadLine();
             return result;
         }
 
